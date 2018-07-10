@@ -51,12 +51,14 @@ class App extends Component {
 
   onEnter = (username, content) => {
     const newMessage = {
-      id: generateRandomString(),
+      //id: generateRandomString(),
       username: username,
       content: content,
     };
-    const messages = this.state.messages.concat(newMessage)
-    this.setState({messages: messages});
+    // const messages = this.state.messages.concat(newMessage)
+    // this.setState({messages: messages});
+
+    this.socket.send(JSON.stringify(newMessage));
 
   }
 
