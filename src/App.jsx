@@ -5,8 +5,9 @@ import ChatBar from "./ChatBar.jsx";
 
 class App extends Component {
   state = {
-    currentUser: {name: "Bob"}, // optional. if currentUser is not defined, it means the user is Anonymous
+    currentUser: {name: "Anonymous"}, // optional. if currentUser is not defined, it means the user is Anonymous
     messages: [],
+    numberOfClients: null
   }
 
   componentDidMount = () => {
@@ -20,18 +21,25 @@ class App extends Component {
 
     this.socket.onmessage = (event) => {
       const data = JSON.parse(event.data);
-      const messages = this.state.messages.concat(data);
-      this.setState({messages: messages});
+      if (data.type === "numberOfClients") {
+        this.setState({numberOfClients: data.numberOfClients});
+      } else {
+        const messages = this.state.messages.concat(data);
+        this.setState({messages: messages});
+      }
     }
   }
 
 
   onEnter = (username, content) => {
-    const newMessage = {
-      type: "postMessage",
-      username: username,
-      content: content,
-    };
+    if (content !== null) {
+      const newMessage = {
+        type: "postMessage",
+        username: username,
+        content: content,
+      };
+      this.socket.send(JSON.stringify(newMessage));
+    }
 
     if (this.state.currentUser.name !== username) {
       const newNotification = {
@@ -41,16 +49,12 @@ class App extends Component {
       this.socket.send(JSON.stringify(newNotification));
       this.setState({currentUser: {name: username}});
     }
-
-    this.socket.send(JSON.stringify(newMessage));
-
   }
 
   render() {
-    console.log(this.state.messages)
     return (
       <div className="container">
-        <NavBar/>
+        <NavBar numberOfClients={this.state.numberOfClients}/>
         <MessageList messages={this.state.messages}/>
         <ChatBar onEnter={this.onEnter} currentUser={this.state.currentUser}/>
       </div>
