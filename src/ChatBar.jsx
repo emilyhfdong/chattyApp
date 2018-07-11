@@ -7,7 +7,11 @@ class ChatBar extends Component {
   }
   onKeyDown = (event) => {
     if(event.keyCode === 13) {
-      this.props.onEnter(this.state.username, this.state.content);
+      if (this.state.username === "") {
+        this.props.onEnter("Anonymous", this.state.content);
+      } else {
+        this.props.onEnter(this.state.username, this.state.content);
+      }
       this.state.content = null;
       event.target.value = null;
     }
