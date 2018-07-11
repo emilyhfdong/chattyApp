@@ -20,8 +20,12 @@ const wss = new SocketServer({ server });
 // When a client connects they are assigned a socket, represented by
 // the ws parameter in the callback.
 
+const colours = ["#FF0000", "#0011ff", "#15ff00", "#6a00ff"];
+
 wss.on('connection', (ws) => {
   console.log('Client connected');
+  const clientColour = colours[wss.clients.size % 4];
+
   const sendClients = {
     type: "numberOfClients",
     numberOfClients: wss.clients.size,
@@ -32,6 +36,8 @@ wss.on('connection', (ws) => {
     }
   });
 
+
+
   ws.onmessage = function (event) {
     const data = JSON.parse(event.data);
     switch (data.type) {
@@ -41,6 +47,7 @@ wss.on('connection', (ws) => {
           id: uuid(),
           username: data.username,
           content: data.content,
+          colour: clientColour
         }
         wss.clients.forEach(function each(client) {
           if (client.readyState === 1) {
