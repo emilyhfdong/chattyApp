@@ -77,13 +77,16 @@ function sendNotification (data) {
   });
 }
 
+let onlineClients = [];
+
 wss.on('connection', (ws) => {
-  console.log('Client connected');
   const clientColour = colours[wss.clients.size % 4];
+  console.log(`Client with color ${clientColour} connected`);
+  onlineClients.push(clientColour);
 
   const sendClients = {
-    type: "numberOfClients",
-    numberOfClients: wss.clients.size,
+    type: "onlineClient",
+    clients: onlineClients,
   }
   wss.clients.forEach(function each(client) {
     if (client.readyState === 1) {
@@ -106,10 +109,13 @@ wss.on('connection', (ws) => {
 
   // Set up a callback for when a client closes the socket. This usually means they closed their browser.
   ws.on('close', () => {
-    console.log('Client disconnected');
+    console.log(`Client with colour ${clientColour} disconnected`);
+    onlineClients.splice(onlineClients.indexOf(clientColour), 1);
+    console.log(`online clients: ${onlineClients}`)
+
     const sendClients = {
-    type: "numberOfClients",
-      numberOfClients: wss.clients.size,
+      type: "onlineClient",
+      clients: onlineClients,
     }
     wss.clients.forEach(function each(client) {
       if (client.readyState === 1) {

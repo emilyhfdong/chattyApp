@@ -11,7 +11,7 @@ class Message extends Component {
         <img className="message-img" src={image.url} key={image.id}/>
       ))
     )
-
+    console.log(this.props.message);
     return (
       <div className="message">
           <span style={usernameStyle} className="message-username">{this.props.message.username}</span>

@@ -7,7 +7,8 @@ class App extends Component {
   state = {
     currentUser: {name: "Anonymous"}, // optional. if currentUser is not defined, it means the user is Anonymous
     messages: [],
-    numberOfClients: null
+    //numberOfClients: null,
+    onlineClients: [],
   }
 
   componentDidMount = () => {
@@ -21,8 +22,9 @@ class App extends Component {
 
     this.socket.onmessage = (event) => {
       const data = JSON.parse(event.data);
-      if (data.type === "numberOfClients") {
-        this.setState({numberOfClients: data.numberOfClients});
+      if (data.type === "onlineClient") {
+        this.setState({onlineClients: data.clients});
+        console.log(this.state.onlineClients)
       } else {
         const messages = this.state.messages.concat(data);
         this.setState({messages: messages});
@@ -54,7 +56,7 @@ class App extends Component {
   render() {
     return (
       <div className="container">
-        <NavBar numberOfClients={this.state.numberOfClients}/>
+        <NavBar onlineClients={this.state.onlineClients}/>
         <MessageList messages={this.state.messages}/>
         <ChatBar onEnter={this.onEnter} currentUser={this.state.currentUser}/>
       </div>
