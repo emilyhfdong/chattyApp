@@ -15,9 +15,9 @@ class App extends Component {
 
     this.socket = new WebSocket("ws://0.0.0.0:3001");
 
-    this.socket.onopen = function (event) {
+    this.socket.addEventListener("open", event => {
       console.log("Connected to server!");
-    };
+    })
 
     this.socket.onmessage = (event) => {
       const data = JSON.parse(event.data);

@@ -11,7 +11,7 @@ class MessageList extends Component {
       } else {
         return (<Notification key={message.id} message={message}/>)
       }
-    })
+    });
 
     return (
       <main className="messages">
