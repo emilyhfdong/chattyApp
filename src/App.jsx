@@ -3,11 +3,18 @@ import NavBar from "./NavBar.jsx";
 import MessageList from "./MessageList.jsx";
 import ChatBar from "./ChatBar.jsx";
 
+function getDate() {
+  let today = Date().split(" ");
+  today.splice(4);
+  let todayStr = today.join(" ");
+  return todayStr
+}
+
 class App extends Component {
   state = {
-    currentUser: {name: "Anonymous"}, // optional. if currentUser is not defined, it means the user is Anonymous
+    todaysDate: getDate(),
+    currentUser: {name: "anonymous"}, // optional. if currentUser is not defined, it means the user is Anonymous
     messages: [],
-    //numberOfClients: null,
     onlineClients: [],
   }
 
@@ -57,7 +64,7 @@ class App extends Component {
     return (
       <div className="container">
         <NavBar onlineClients={this.state.onlineClients}/>
-        <MessageList messages={this.state.messages}/>
+        <MessageList todaysDate={this.state.todaysDate} messages={this.state.messages}/>
         <ChatBar onEnter={this.onEnter} currentUser={this.state.currentUser}/>
       </div>
     );

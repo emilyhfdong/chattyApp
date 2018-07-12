@@ -1,0 +1,62 @@
+.navbar {
+  background-color: $navy;
+  width: 20%;
+  height: 100%;
+  position: fixed;
+  padding-top: 5%;
+  .navbar-brand {
+    font-family: $logoFont;
+    font-size: 15px;
+    letter-spacing: 8px;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    h1 {
+      margin: 0;
+      .greyLetter {
+        color: $grey;
+      }
+      .peachLetter {
+        color: $peach;
+      }
+      .tealLetter {
+        color: $teal;
+      }
+      .navyLetter {
+        color: $navy;
+      }
+      .orangeLetter {
+        color: $orange;
+      }
+    }
+  }
+  .navbar-online-clients {
+    padding-top: 20%;
+    text-align: center;
+    .clients-title {
+      font-family: $secondaryFont;
+      letter-spacing: 2px;
+      color: white;
+    }
+    .navbar-client-icons {
+      font-size: 3rem;
+      .fa-user {
+        margin: 0.5rem;
+      }
+      .peachIcon {
+        color: $peach;
+      }
+      .tealIcon {
+        color: $teal;
+      }
+      .navyIcon {
+        color: $navy;
+      }
+      .orangeIcon {
+        color: $orange;
+      }
+
+    }
+
+  }
+}

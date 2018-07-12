@@ -1,0 +1,31 @@
+.chatbar {
+  background: $grey;
+  height: 4rem;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  position: fixed;
+  margin-left: 20%;
+  padding-left: 0.5rem;
+  border-top: 2px solid $orange;
+
+  .chatbar-username,
+  .chatbar-message {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    margin-right: 0.5rem;
+    padding: 0.5rem;
+    color: $navy;
+    font-family: $secondaryFont;
+    letter-spacing: 2px;
+    font-size: 15px;
+
+  }
+  .chatbar-username {
+    flex: 2;
+  }
+  .chatbar-message {
+    flex: 8;
+  }
+}

@@ -15,6 +15,7 @@ class MessageList extends Component {
 
     return (
       <main className="messages">
+        <p className="messages-date"><span>{this.props.todaysDate}</span></p>
         {allMessages}
       </main>
     );

@@ -16,12 +16,13 @@ const server = express()
 // Create the WebSockets server
 const wss = new SocketServer({ server });
 
-// Set up a callback that will run when a client connects to the server
-// When a client connects they are assigned a socket, represented by
-// the ws parameter in the callback.
 
-const colours = ["#FF0000", "#0011ff", "#15ff00", "#6a00ff"];
+// Define array of possible colours
+const colours = ["orange", "teal", "navy", "peach"];
+// create empty array of online users
+let onlineClients = [];
 
+// define function to send message to app
 function sendMessage (data, clientColour) {
   let arrayOfString = data.content.split(" ");
   const re = /https?:\/\/.*\.(?:png|jpg)/;
@@ -36,7 +37,6 @@ function sendMessage (data, clientColour) {
     }
   }
   arrayOfString = arrayOfString.filter(isNotImage);
-
   const message = arrayOfString.join(" ");
   if (arrayOfImages.length === 0) {
     arrayOfImages = null;
@@ -48,7 +48,6 @@ function sendMessage (data, clientColour) {
       }
     })
   }
-
   const messageToSend = {
     type: "incommingMessage",
     id: uuid(),
@@ -63,7 +62,7 @@ function sendMessage (data, clientColour) {
     }
   });
 }
-
+// define function to send notification to app
 function sendNotification (data) {
   const notificationToSend = {
     type: "incommingNotification",
@@ -77,10 +76,10 @@ function sendNotification (data) {
   });
 }
 
-let onlineClients = [];
 
+// Set up a callback that will run when a client connects to the server
 wss.on('connection', (ws) => {
-  const clientColour = colours[wss.clients.size % 4];
+  const clientColour = colours[(wss.clients.size - 1) % 4];
   console.log(`Client with color ${clientColour} connected`);
   onlineClients.push(clientColour);
 
@@ -109,9 +108,8 @@ wss.on('connection', (ws) => {
 
   // Set up a callback for when a client closes the socket. This usually means they closed their browser.
   ws.on('close', () => {
-    console.log(`Client with colour ${clientColour} disconnected`);
+    console.log(`Client disconnected`);
     onlineClients.splice(onlineClients.indexOf(clientColour), 1);
-    console.log(`online clients: ${onlineClients}`)
 
     const sendClients = {
       type: "onlineClient",

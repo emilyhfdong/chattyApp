@@ -38,7 +38,7 @@ class ChatBar extends Component {
           onKeyDown={this.onKeyDown}
           className="chatbar-message"
           value={this.state.message}
-          placeholder="Type a message and hit ENTER"
+          placeholder="type a message and hit ENTER"
         />
       </footer>
     );

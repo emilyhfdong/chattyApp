@@ -1,0 +1,59 @@
+.messages {
+  .messages-date {
+    text-align: center;
+    font-family: $secondaryFont;
+    color: $navy;
+    margin: 1rem;
+    margin-top: 0;
+    padding-top: 1.5rem;
+    border-bottom: 1px solid $navy;
+    line-height: 0.1em;
+    span {
+      background-color: white;
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+  }
+  padding-left: 20%;
+  .orangeMessage {
+    //border-top: 2px solid $orange;
+    border-left: 2px solid $orange;
+  }
+  .tealMessage {
+    //border-top: 2px solid $teal;
+    border-left: 2px solid $teal;
+  }
+  .navyMessage {
+    //border-top: 2px solid $navy;
+    border-left: 2px solid $navy;
+  }
+  .peachMessage {
+    //border-top: 2px solid $peach;
+    border-left: 2px solid $peach;
+  }
+  .message {
+    display: flex;
+    flex-direction: column;
+    margin: 1rem;
+    padding: 0.5rem;
+    color: $navy;
+    font-family: $messageFont;
+    .message-username {
+      margin: 0;
+      font-weight: 700;
+    }
+    .message-content {
+      font-weight: 100;
+    }
+  }
+  .notification {
+    display: flex;
+    font-family: $messageFont;
+    font-style: italic;
+    text-align: center;
+    justify-content: center;
+    p {
+      margin: 0;
+    }
+  }
+}
