@@ -17,8 +17,8 @@ const server = express()
 const wss = new SocketServer({ server });
 
 
-// Define array of possible colours
-const colours = ["orange", "teal", "navy", "peach"];
+// define array of possible colours
+const colours = ["orange", "teal", "grey", "peach"];
 // create empty array of online users
 let onlineClients = [];
 
@@ -36,8 +36,11 @@ function sendMessage (data, clientColour) {
       return true;
     }
   }
+  // filter array of string to remove image urls and push them into arrayOfImages
   arrayOfString = arrayOfString.filter(isNotImage);
   const message = arrayOfString.join(" ");
+
+  // if there are images, map array of images into array of objects (including id and url)
   if (arrayOfImages.length === 0) {
     arrayOfImages = null;
   } else {
@@ -48,6 +51,7 @@ function sendMessage (data, clientColour) {
       }
     })
   }
+  // broadcast message to all clients
   const messageToSend = {
     type: "incommingMessage",
     id: uuid(),
@@ -62,16 +66,30 @@ function sendMessage (data, clientColour) {
     }
   });
 }
+
 // define function to send notification to app
-function sendNotification (data) {
+function sendNotification (data, client, onlineClients) {
+  // update client and onlineClients info on the server
+  client.name = data.newName;
+  for (let i = 0; i < onlineClients.length; i ++ ) {
+    if (onlineClients[i].clientId === data.userId) {
+      onlineClients[i].name = data.newName;
+    }
+  }
+  // broadcast notification and change in onlineClients to all clients
   const notificationToSend = {
     type: "incommingNotification",
     id: uuid(),
-    content: data.content,
+    content: `${data.oldName} has changed their name to ${data.newName}`
+  }
+  const sendClients = {
+    type: "onlineClients",
+    clients: onlineClients,
   }
   wss.clients.forEach(function each(client) {
     if (client.readyState === 1) {
       client.send(JSON.stringify(notificationToSend));
+      client.send(JSON.stringify(sendClients));
     }
   });
 }
@@ -79,12 +97,25 @@ function sendNotification (data) {
 
 // Set up a callback that will run when a client connects to the server
 wss.on('connection', (ws) => {
-  const clientColour = colours[(wss.clients.size - 1) % 4];
-  console.log(`Client with color ${clientColour} connected`);
-  onlineClients.push(clientColour);
+  // define client info object for this client
+  let client = {
+    name: "Anonymous",
+    clientId: uuid(),
+    clientColour: colours[(wss.clients.size - 1) % 4],
+  }
+  // send client info to the app
+  const sendClientInfo = {
+    type: "clientInfo",
+    client: client,
+  }
+  ws.send(JSON.stringify(sendClientInfo));
 
+  // add client to array of currently online clients
+  onlineClients.push(client);
+
+  // broadcast updated onlineClients array to all connected clients
   const sendClients = {
-    type: "onlineClient",
+    type: "onlineClients",
     clients: onlineClients,
   }
   wss.clients.forEach(function each(client) {
@@ -93,14 +124,15 @@ wss.on('connection', (ws) => {
     }
   });
 
+  // set up callback that will run when the server recieves a message from the app
   ws.onmessage = function (event) {
     const data = JSON.parse(event.data);
     switch (data.type) {
       case "postMessage":
-        sendMessage(data, clientColour);
+        sendMessage(data, client.clientColour);
         break;
       case "postNotification":
-        sendNotification(data);
+        sendNotification(data, client, onlineClients);
         break;
     }
 
@@ -108,16 +140,25 @@ wss.on('connection', (ws) => {
 
   // Set up a callback for when a client closes the socket. This usually means they closed their browser.
   ws.on('close', () => {
-    console.log(`Client disconnected`);
-    onlineClients.splice(onlineClients.indexOf(clientColour), 1);
+    // remove current client from array of online clients
+    onlineClients = onlineClients.filter(function(user) {
+      return user.clientId !== client.clientId;
+    });
 
+    // broadcast updated array to all connected clients and notification for disconnected client
     const sendClients = {
-      type: "onlineClient",
+      type: "onlineClients",
       clients: onlineClients,
+    }
+    const disconnectNotification = {
+      type: "incommingNotification",
+      id: uuid(),
+      content: `${client.name} has disconnected`,
     }
     wss.clients.forEach(function each(client) {
       if (client.readyState === 1) {
         client.send(JSON.stringify(sendClients));
+        client.send(JSON.stringify(disconnectNotification));
       }
     });
   });

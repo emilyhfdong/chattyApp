@@ -31,29 +31,51 @@
     }
   }
   .navbar-online-clients {
-    padding-top: 20%;
+    padding-top: 50%;
     text-align: center;
     .clients-title {
       font-family: $secondaryFont;
       letter-spacing: 2px;
       color: white;
     }
+
     .navbar-client-icons {
       font-size: 3rem;
-      .fa-user {
-        margin: 0.5rem;
-      }
-      .peachIcon {
-        color: $peach;
-      }
-      .tealIcon {
-        color: $teal;
-      }
-      .navyIcon {
-        color: $navy;
-      }
-      .orangeIcon {
-        color: $orange;
+      display: flex;
+      justify-content: center;
+      flex-flow: row wrap;
+      .icon {
+        width: 40%;
+        &:hover .icon-name {
+          visibility: visible;
+        }
+        .icon-name {
+          visibility: hidden;
+          color: white;
+          text-align: center;
+          font-size: 9px;
+          padding: 0;
+          border-radius: 5px;
+          font-family: $secondaryFont;
+          text-transform: uppercase;
+          letter-spacing: 2px;
+          margin: 0;
+        }
+        .fa-user {
+          margin: 0.5rem;
+        }
+        .peachIcon {
+          color: $peach;
+        }
+        .tealIcon {
+          color: $teal;
+        }
+        .greyIcon {
+          color: $grey;
+        }
+        .orangeIcon {
+          color: $orange;
+        }
       }
 
     }

@@ -3,11 +3,15 @@ import React, {Component} from 'react';
 
 
 class NavBar extends Component {
-
-
   render() {
-    const clientIcons = this.props.onlineClients.map(colour => {
-      return (<i className={`fa fa-user ${colour}Icon`}></i>)
+    // display the icons of online users in their respective colours
+    const clientIcons = this.props.onlineClients.map(client => {
+      return (
+        <div className="icon" key={client.clientId}>
+        <i className={`fa fa-user ${client.clientColour}Icon`}></i>
+        <p className="icon-name">{client.name}</p>
+        </div>
+      )
     });
     return (
       <nav className="navbar">

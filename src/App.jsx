@@ -3,6 +3,7 @@ import NavBar from "./NavBar.jsx";
 import MessageList from "./MessageList.jsx";
 import ChatBar from "./ChatBar.jsx";
 
+// function to get the date as a string
 function getDate() {
   let today = Date().split(" ");
   today.splice(4);
@@ -11,36 +12,47 @@ function getDate() {
 }
 
 class App extends Component {
+  // set state for app
   state = {
     todaysDate: getDate(),
-    currentUser: {name: "anonymous"}, // optional. if currentUser is not defined, it means the user is Anonymous
+    currentUser: {name: "Anonymous"},
     messages: [],
     onlineClients: [],
   }
 
   componentDidMount = () => {
-    console.log("componentDidMount <App />");
-
     this.socket = new WebSocket("ws://0.0.0.0:3001");
 
-    this.socket.addEventListener("open", event => {
-      console.log("Connected to server!");
-    })
-
+    // set up callback that runs when app recieves a message fro the websocket server
     this.socket.onmessage = (event) => {
       const data = JSON.parse(event.data);
-      if (data.type === "onlineClient") {
-        this.setState({onlineClients: data.clients});
-        console.log(this.state.onlineClients)
-      } else {
-        const messages = this.state.messages.concat(data);
-        this.setState({messages: messages});
+      let messages;
+      switch (data.type) {
+        // update current online users
+        case "onlineClients":
+          this.setState({onlineClients: data.clients});
+          break;
+        // set up name, id, and colour of current user
+        case "clientInfo":
+          this.setState({currentUser: data.client});
+          break;
+        // add message to array of messages
+        case "incommingMessage":
+          messages = this.state.messages.concat(data);
+          this.setState({messages: messages});
+          break;
+        // add notifications to the of messages
+        case "incommingNotification":
+          messages = this.state.messages.concat(data);
+          this.setState({messages: messages});
+          break;
       }
     }
   }
 
-
+  // handler for when enter is pressed on the chat bar
   onEnter = (username, content) => {
+    // if there is a new message, send message to websocket
     if (content !== null) {
       const newMessage = {
         type: "postMessage",
@@ -49,14 +61,21 @@ class App extends Component {
       };
       this.socket.send(JSON.stringify(newMessage));
     }
-
+    // if the name has changed, update currentUser name in state
+    // and send notification to websocket
     if (this.state.currentUser.name !== username) {
       const newNotification = {
         type: "postNotification",
-        content: `${this.state.currentUser.name} has changed their name to ${username}`
+        userId: this.state.currentUser.clientId,
+        oldName: this.state.currentUser.name,
+        newName: username,
       }
       this.socket.send(JSON.stringify(newNotification));
-      this.setState({currentUser: {name: username}});
+      this.setState({currentUser: {
+        name: username,
+        clientId: this.state.currentUser.clientId,
+        clientColour: this.state.currentUser.clientColour
+      }});
     }
   }
 

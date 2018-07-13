@@ -5,6 +5,8 @@ class ChatBar extends Component {
     username: this.props.currentUser.name,
     content: null
   }
+  // if enter is pressed on either inputs,
+  // the onEnter callback is called and the message input is cleared
   onKeyDown = (event) => {
     if(event.keyCode === 13) {
       if (this.state.username === "") {
@@ -16,16 +18,18 @@ class ChatBar extends Component {
       event.target.value = null;
     }
   }
+  // update the state of the chatbar when there is a change in the username input
   onUsernameChange = (event) => {
     this.setState({username: event.target.value});
   }
+  // update the state of the chatbar when there is a change in the message input
   onContentChange = (event) => {
     this.setState({content: event.target.value});
   }
 
   render() {
     return (
-      <footer className="chatbar">
+      <footer className={`chatbar ${this.props.currentUser.clientColour}-bar`}>
         <input
           onChange={this.onUsernameChange}
           onKeyDown={this.onKeyDown}

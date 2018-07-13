@@ -8,7 +8,18 @@
   position: fixed;
   margin-left: 20%;
   padding-left: 0.5rem;
-  border-top: 2px solid $orange;
+  &.orange-bar {
+    border-top: 2px solid $orange;
+  }
+  &.teal-bar {
+    border-top: 2px solid $teal;
+  }
+  &.grey-bar {
+    border-top: 2px solid $grey;
+  }
+  &.peach-bar {
+    border-top: 2px solid $peach;
+  }
 
   .chatbar-username,
   .chatbar-message {
