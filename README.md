@@ -1,20 +1,9 @@
-React Boilerplate
+Chatty App
 =====================
 
-A minimal and light dev environment for ReactJS.
+A real time chat application that allows users to communicate with others without having to log in. Build using ReactJS, Webpack (with Babel, JSX and ES6), and WebSockets.
 
-### Usage
-
-Clone the boilerplate and create your own git repo.
-
-```
-git clone git@github.com:lighthouse-labs/react-simple-boilerplate.git
-cd react-simple-boilerplate
-git remote rm origin
-git remote add origin [YOUR NEW REPOSITORY]
-# Manually update your package.json file
-```
-
+## Usage
 Install the dependencies and start the server.
 
 ```
@@ -23,21 +12,45 @@ npm start
 open http://localhost:3000
 ```
 
-### Static Files
+## Final Product
+#### Connect with users
 
-You can store static files like images, fonts, etc in the `build` folder.
+- When a new user connects, they are assigned a colour
+- Their chatbar shows colour of they were assigned
+- Users can see the colours of all online users
 
-For example, if you copy a file called my_image.png into the build folder you can access it using `http://localhost:3000/build/my_image.png`.
+!["GIF of user connecting"](https://github.com/emilyhfdong/TinyApp/blob/master/docs/url-index.png)
 
-### Linting
+#### Send messages
 
-This boilerplate project includes React ESLint configuration.
+- All users will see messages as they are sent
+- The colour of the message corresponds to the colour assigned to the user
+- Notifications are sent when a user changes their name
 
-```
-npm run lint
-```
+!["GIF of sending messages "](https://github.com/emilyhfdong/TinyApp/blob/master/docs/url-index.png)
 
-### Dependencies
+#### Change name
+
+- When a user changes their name, all online users are updated
+- The names of all online users appear when you hover over their icon
+
+!["GIF of changing name"](https://github.com/emilyhfdong/TinyApp/blob/master/docs/url-index.png)
+
+#### Send images
+
+- Users can send images as well as text
+
+!["GIF of sending images"](https://github.com/emilyhfdong/TinyApp/blob/master/docs/url-index.png)
+
+#### Connect with many others
+
+- Any number of users can connect
+- All users are notified when a user disconnects
+
+!["GIF of third user"](https://github.com/emilyhfdong/TinyApp/blob/master/docs/url-index.png)
+
+
+## Dependencies
 
 * React
 * Webpack

@@ -49,6 +49,12 @@ class App extends Component {
       }
     }
   }
+  scrollToBottom = () => {
+    this.messagesEnd.scrollIntoView({ behavior: "smooth" });
+  }
+  componentDidUpdate() {
+    this.scrollToBottom();
+  }
 
   // handler for when enter is pressed on the chat bar
   onEnter = (username, content) => {
@@ -84,6 +90,9 @@ class App extends Component {
       <div className="container">
         <NavBar onlineClients={this.state.onlineClients}/>
         <MessageList todaysDate={this.state.todaysDate} messages={this.state.messages}/>
+        <div style={{ float:"left", clear: "both" }}
+          ref={(el) => { this.messagesEnd = el; }}>
+        </div>
         <ChatBar onEnter={this.onEnter} currentUser={this.state.currentUser}/>
       </div>
     );
