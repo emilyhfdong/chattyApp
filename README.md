@@ -19,7 +19,7 @@ open http://localhost:3000
 - Their chatbar shows colour of they were assigned
 - Users can see the colours of all online users
 
-!["GIF of user connecting"](https://github.com/emilyhfdong/TinyApp/blob/master/docs/url-index.png)
+!["GIF of user connecting"](https://github.com/emilyhfdong/chattyApp/blob/master/docs/new-user.gif)
 
 #### Send messages
 
@@ -27,27 +27,27 @@ open http://localhost:3000
 - The colour of the message corresponds to the colour assigned to the user
 - Notifications are sent when a user changes their name
 
-!["GIF of sending messages "](https://github.com/emilyhfdong/TinyApp/blob/master/docs/url-index.png)
+!["GIF of sending messages "](https://github.com/emilyhfdong/chattyApp/blob/master/docs/send-message.gif)
 
 #### Change name
 
 - When a user changes their name, all online users are updated
 - The names of all online users appear when you hover over their icon
 
-!["GIF of changing name"](https://github.com/emilyhfdong/TinyApp/blob/master/docs/url-index.png)
+!["GIF of changing name"](https://github.com/emilyhfdong/chattyApp/blob/master/docs/name-change.gif)
 
 #### Send images
 
 - Users can send images as well as text
 
-!["GIF of sending images"](https://github.com/emilyhfdong/TinyApp/blob/master/docs/url-index.png)
+!["GIF of sending images"](https://github.com/emilyhfdong/chattyApp/blob/master/docs/send-pics.gif)
 
 #### Connect with many others
 
 - Any number of users can connect
 - All users are notified when a user disconnects
 
-!["GIF of third user"](https://github.com/emilyhfdong/TinyApp/blob/master/docs/url-index.png)
+!["GIF of third user"](https://github.com/emilyhfdong/chattyApp/blob/master/docs/third-user.gif)
 
 
 ## Dependencies
