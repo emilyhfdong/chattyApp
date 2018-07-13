@@ -13,6 +13,9 @@ open http://localhost:3000
 ```
 
 ## Final Product
+!["screenshot of final product"](https://github.com/emilyhfdong/chattyApp/blob/master/docs/chatty-app.png)
+
+
 #### Connect with users
 
 - When a new user connects, they are assigned a colour

@@ -113,6 +113,12 @@ wss.on('connection', (ws) => {
   // add client to array of currently online clients
   onlineClients.push(client);
 
+  // notify all clients that a new user has connected
+  const newUserNotification = {
+    type: "incommingNotification",
+    id: uuid(),
+    content: `A new user has connected!`,
+  }
   // broadcast updated onlineClients array to all connected clients
   const sendClients = {
     type: "onlineClients",
@@ -121,6 +127,7 @@ wss.on('connection', (ws) => {
   wss.clients.forEach(function each(client) {
     if (client.readyState === 1) {
       client.send(JSON.stringify(sendClients));
+      client.send(JSON.stringify(newUserNotification));
     }
   });
 
